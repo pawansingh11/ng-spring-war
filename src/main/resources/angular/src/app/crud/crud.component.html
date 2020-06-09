@@ -1,0 +1,106 @@
+<div class="container mt-4">
+    <!-- to add data -->
+    <div class="border mt-h2 p-4">
+        <button class="btn btn-primary" (click)="addList=true;cancleAddBtn=true">Add New List</button>
+        <div class="animated fadeIn" *ngIf="addList">
+            <div class="row my-2">
+                <div class="col">
+                    <label for="inputState">Name</label>
+                    <input #name type="text" class="form-control" placeholder="Name">
+                </div>
+                <div class="col">
+                    <label for="inputState">description</label>
+                    <input #desc type="text" class="form-control" placeholder="description">
+                </div>
+                <div class="col">
+                    <label for="inputState">Done</label>
+                    <select #done id="inputState" class="form-control">
+                        <option selected>true</option>
+                        <option>false</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-success px-4" (click)="addData(name.value,desc.value,done.value)">Save</button>
+            <button *ngIf="cancleAddBtn" class="btn btn-danger mx-4" (click)="addList=false;cancleAddBtn=false">Cancel</button>
+        </div>
+    </div>
+
+
+    <div *ngIf="addSuccess" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+        List added <strong>Successfully!</strong>
+        <button type="button" (click)="addSuccess=false"  class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- deleteSuccess -->
+    <div *ngIf="editSuccess" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+        List Edited <strong>Successfully!</strong>
+        <button type="button"  class="close" (click)="editSuccess=false" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf="deleteSuccess" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+        List deleted <strong>Successfully!</strong>
+        <button type="button"  class="close" (click)="deleteSuccess=false" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="border mt-2">
+        <ul class="list-group list-group-flush" *ngIf="todoList">
+            <li class="list-group-item font-weight-bold" style="background-color: #DEE2E6;">
+                <div class="row" >
+                    <div class="col-3">Name</div>
+                    <div class="col-3">Description</div>
+                    <div class="col-3">Status</div>
+                    <div class="col-3"></div>
+                </div>
+            </li>
+            <li class="list-group-item " *ngFor="let todo of todoList">
+                
+                <div class="row animated fadeIn">
+                    <div class="col-3">{{todo.username}}</div>
+                    <div class="col-3">{{todo.description}}</div>
+                    <div class="col-3">{{todo.done}}</div>
+                    <div class="col-3">
+                        <!-- {{todo.targetdate | date}} -->
+                        <span>
+                            <button class="btn btn-danger" (click)="deleteList(todo.id)">Delete</button>
+                        </span>
+                        <span class="mx-2">
+                            <button class="btn btn-success px-4" (click)="updateList(todo.id)">Edit</button>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- edit -->
+                <div class="border p-2 animated fadeIn" style="background-color: #DEE2E6;" *ngIf="todo.id == editId">
+                    <div class="row">
+                        <div class="col">
+                            <label for="inputState">Name</label>
+                            <input #uname type="text" [value]="todo.username" class="form-control" placeholder="Name">
+                        </div>
+                        <div class="col">
+                            <label for="inputState">description</label>
+                            <input #udesc type="text" [value]="todo.username" class="form-control" placeholder="description">
+                        </div>
+                        <div class="col">
+                            <label for="inputState">Done</label>
+                            <select #udone id="inputState" class="form-control">
+                                <option selected>{{todo.done}}</option>
+                                <option value="true">true</option>
+                                <option value="false">false</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="my-2">
+                        <button class="btn btn-success"
+                            (click)="updateData(uname.value,udesc.value,udone.value,todo.id)">
+                            Save</button>
+                        <button class="btn btn-danger mx-2" (click)="editId=null">Cancel</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
